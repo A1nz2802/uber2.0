@@ -10,16 +10,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props extends StackScreenProps<RootStackParamList, 'MapScreen'>{}
 
-const MapScreen = ( {}: Props ) => {
+export type MapStackParamList = {
+  NavigateCard: undefined;
+  RideOptionsCard: undefined;
+};
 
-  const Stack = createStackNavigator();
+const Stack = createStackNavigator<MapStackParamList>();
+
+const MapScreen = ( {}: Props ) => {
 
   return (
     <SafeAreaView>
+
       <View style={ tw`h-1/2` }>
         <Map />
       </View>
-
+      
       <View style={ tw`h-1/2` }>
         <Stack.Navigator>
           <Stack.Screen 
@@ -31,7 +37,7 @@ const MapScreen = ( {}: Props ) => {
           />
 
           <Stack.Screen 
-            name="RideOptionCard"
+            name="RideOptionsCard"
             component={ RideOptionsCard }
             options={{
               headerShown: false,
@@ -39,6 +45,7 @@ const MapScreen = ( {}: Props ) => {
           />
         </Stack.Navigator>
       </View>
+
     </SafeAreaView>
   )
 }

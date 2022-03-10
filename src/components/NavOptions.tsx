@@ -1,10 +1,10 @@
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import tw from 'twrnc';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
-import { useNavigation } from '@react-navigation/native';
+import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { selectOrigin } from '../slices/navSlice';
+import tw from 'twrnc';
 
 const data = [
   {
@@ -24,7 +24,7 @@ const data = [
 const NavOptions = () => {
 
   const navigation = useNavigation();
-  const origin = useSelector(selectOrigin);
+  const origin = useSelector( selectOrigin );
 
   return (
     <FlatList 

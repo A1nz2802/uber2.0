@@ -11,9 +11,14 @@ type OriginInterface = {
   description: string;
 }
 
+type DestionationInterface = {
+  location: Point;
+  description: string;
+}
+
 interface NavState {
   origin: OriginInterface | null;
-  destination: object | null;
+  destination: DestionationInterface | null;
   travelTimeInformation: object | null;
 }
 
@@ -30,7 +35,7 @@ export const navSlice = createSlice({
     setOrigin: (state: NavState, action: PayloadAction<OriginInterface | null>) => {
       state.origin = action.payload;
     },
-    setDestination: (state: NavState, action: PayloadAction<object | null>) => {
+    setDestination: (state: NavState, action: PayloadAction<DestionationInterface | null>) => {
       state.destination = action.payload;
     },
     setTravelTimeInformation: (state: NavState, action: PayloadAction<object | null>) => {
