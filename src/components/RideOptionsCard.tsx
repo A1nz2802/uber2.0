@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, FlatList, Image, useWindowDimensions } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, FlatList, Image, useWindowDimensions, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import tw from 'twrnc';
+import { selectTravelInformation } from '../slices/navSlice';
+import { useSelector } from 'react-redux';
+import 'intl'
+import 'intl/locale-data/jsonp/en-US'
 
-interface Data {
-  id: string;
-  title: string;
-  multiplier: number;
-  image: string;
-}
-
-const data: Data[] = [
+const data = [
   {
     id: 'Uber-X-123',
     title: 'Uber X',
@@ -32,13 +29,14 @@ const data: Data[] = [
   }
 ]
 
+// If we hace SURGE pricing, this goes up
+const SURGE_CHARGE_RATE: number = 1.5;
+
 interface Item {
-  
   id: string;
   title: string;
   multiplier: number;
   image: string;
-
 }
 
 const RideOptionsCard = () => {
@@ -46,17 +44,18 @@ const RideOptionsCard = () => {
   const navigation = useNavigation();
   const [ selected, setSelected ] = useState<Item | null>( null );
   const { height } = useWindowDimensions();
+  const travelTimeInformation = useSelector( selectTravelInformation );
 
   return (
     <SafeAreaView style={ tw`bg-white flex-grow` }>
       <View>
         <TouchableOpacity 
-          style={ tw`absolute top-3 left-5 z-80 p-3 rounded-full` }
+          style={ tw`absolute top-1 left-5 z-80 p-3 rounded-full` }
           onPress={ () => navigation.navigate('NavigateCard' as never) } 
         >
           <Icon name='chevron-left' type='fontawesome'/>
         </TouchableOpacity>
-        <Text style={ tw`text-center py-5 ${ height < 700 ? 'text-base' : 'text-xl'}` }>Select a Ride</Text>
+        <Text style={ tw`text-center py-3 ${ height < 700 ? 'text-base' : 'text-xl'}` }>Select a Ride - { travelTimeInformation?.distance?.text }</Text>
       </View>
 
 
@@ -75,17 +74,28 @@ const RideOptionsCard = () => {
 
             <View style={ tw`-ml-6` }>
               <Text style={ tw`font-semibold ${ height < 700 ? 'text-base' : 'text-xl'}` }>{ title }</Text>
-              <Text>Travel time ...</Text>
+              <Text>{ (Platform.OS === 'ios') ? travelTimeInformation?.duration?.text : travelTimeInformation?.duration?.text.replace('hours','h') }</Text>
             </View>
 
-            <Text style={ tw`text-xl` }>$99</Text>
+            <Text style={ tw`${ height < 700 ? 'text-base' : 'text-xl'}` }>
+              {
+                ( travelTimeInformation?.duration.value && new 
+                  Intl.NumberFormat('en-gb', {
+                    style: 'currency',
+                    currency: 'USD',
+                  }).format(
+                    ( travelTimeInformation?.duration.value * SURGE_CHARGE_RATE * multiplier ) / 100
+                  )
+                )
+              }
+            </Text>
           </TouchableOpacity>
         )}
       />
 
-      <View>
+      <View style={ tw`mt-auto border-t border-gray-200`}>
         <TouchableOpacity 
-          style={ tw`bg-black m-3 ${ height < 700 ? 'py-2' : 'py-3'} ${ !selected ? 'bg-gray-300' : '' }` }
+          style={ tw`bg-black m-3 ${ height < 700 ? 'py-1' : 'py-3'} ${ !selected ? 'bg-gray-300' : '' }` }
           disabled={ !selected }
         >
           <Text style={ tw`text-center text-white ${ height < 700 ? 'text-base' : 'text-xl'}` }>Choose { selected?.title }</Text>

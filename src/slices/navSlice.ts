@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
+import { Element } from '../types/distanceMatrix';
 
 type Point = {
   lat: number;
@@ -16,17 +17,21 @@ type DestionationInterface = {
   description: string;
 }
 
+interface TravelTimeInformationInterface extends Element {}
+
 interface NavState {
   origin: OriginInterface | null;
   destination: DestionationInterface | null;
-  travelTimeInformation: object | null;
+  travelTimeInformation: TravelTimeInformationInterface | null;
 }
+
 
 const initialState: NavState = {
   origin: null,
   destination: null,
   travelTimeInformation: null
 }
+
 
 export const navSlice = createSlice({
   name: 'nav',
@@ -38,7 +43,7 @@ export const navSlice = createSlice({
     setDestination: (state: NavState, action: PayloadAction<DestionationInterface | null>) => {
       state.destination = action.payload;
     },
-    setTravelTimeInformation: (state: NavState, action: PayloadAction<object | null>) => {
+    setTravelTimeInformation: (state: NavState, action: PayloadAction<TravelTimeInformationInterface | null>) => {
       state.travelTimeInformation = action.payload;
     },
   },

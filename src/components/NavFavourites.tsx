@@ -8,13 +8,13 @@ const data = [
     id: '123',
     icon: 'home',
     location: 'Home',
-    destination: "Code Street, London, UK"
+    destination: "Mz A Lt19, Chiclayo, PE"
   },
   {
     id: '456',
     icon: 'briefcase',
     location: 'Work',
-    destination: 'London Eye, London UK'
+    destination: 'Jr. La Mar Nro. 314, Piura, PE'
   },
 ];
 
