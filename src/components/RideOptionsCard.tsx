@@ -74,7 +74,7 @@ const RideOptionsCard = () => {
 
             <View style={ tw`-ml-6` }>
               <Text style={ tw`font-semibold ${ height < 700 ? 'text-base' : 'text-xl'}` }>{ title }</Text>
-              <Text>{ (Platform.OS === 'ios') ? travelTimeInformation?.duration?.text : travelTimeInformation?.duration?.text.replace('hours','h') }</Text>
+              <Text>{ (Platform.OS === 'ios') ? travelTimeInformation?.duration?.text : travelTimeInformation?.duration?.text.replace('hours','h') } Travel Time</Text>
             </View>
 
             <Text style={ tw`${ height < 700 ? 'text-base' : 'text-xl'}` }>
